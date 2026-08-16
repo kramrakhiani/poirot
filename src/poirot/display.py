@@ -1,8 +1,6 @@
-"""Rich terminal formatting for Poirot CLI output.
-
-Spinners and progress go to stderr so piped stdout stays clean.
-Formatted results go to stdout.
-"""
+# Rich terminal formatting for Poirot CLI output.
+# Spinners and progress go to stderr so piped stdout stays clean.
+# Formatted results go to stdout.
 from __future__ import annotations
 
 import sys
@@ -20,12 +18,12 @@ err = Console(stderr=True, highlight=False)
 # Formatted output → stdout
 out = Console(highlight=False)
 
-# ⣾⣽⣻⢿⡿⣟⣯⣷ — rotating braille that looks like mechanical cogwheel teeth
+# Rotating braille that looks like mechanical cogwheel teeth
 SPINNER = "dots2"
 
 
 def spinner(message: str, style: str = "cyan"):
-    """Return a Rich Status context manager with cogwheel-style spinner."""
+    # Return a Rich Status context manager with cogwheel-style spinner
     return err.status(f"[{style}]{message}[/]", spinner=SPINNER, spinner_style=style)
 
 
@@ -33,7 +31,7 @@ def spinner(message: str, style: str = "cyan"):
 
 
 def display_analysis(result: dict) -> None:
-    """Format binary analysis for human reading."""
+    # Format binary analysis for human reading
     grid = Table.grid(padding=(0, 2))
     grid.add_column(style="bold cyan", justify="right", min_width=14)
     grid.add_column()
@@ -85,7 +83,7 @@ def display_analysis(result: dict) -> None:
 
 
 def display_diff(report: dict) -> None:
-    """Format binary diff for human reading."""
+    # Format binary diff for human reading
     changes = report["function_changes"]
     old_info = report["observed_facts"]["old"]
     new_info = report["observed_facts"]["new"]
@@ -212,7 +210,7 @@ from rich.theme import Theme
 
 
 class SecurityHighlighter(RegexHighlighter):
-    """Highlight security concepts, subsystems, versions, and deltas in LLM output."""
+    # Regex syntax highlighter for terminal LLM interpretation streaming
     base_style = "sec."
     highlights = [
         r"(?P<section>^(?:SUMMARY|OBSERVATIONS|INTERPRETATION|TECHNICAL INTERPRETATION|EVIDENCE OVERVIEW|ANALYSIS|KEY FINDINGS)[:\s]*$)",
@@ -237,7 +235,7 @@ security_theme = Theme({
 
 
 def display_explanation_stream(provider: str, model: str, stream: Generator[str, None, None]) -> str:
-    """Stream LLM explanation tokens to terminal with live keyword highlighting. Returns accumulated text."""
+    # Stream LLM explanation tokens to terminal with live keyword highlighting
     import re
 
     highlighter = SecurityHighlighter()
@@ -287,7 +285,7 @@ def display_explanation_stream(provider: str, model: str, stream: Generator[str,
 
 
 def display_providers(catalog: list[dict]) -> None:
-    """Format provider catalog as a table."""
+    # Format provider catalog as a terminal table
     table = Table(title="LLM Providers", box=box.ROUNDED, title_style="bold cyan")
     table.add_column("Provider", style="bold")
     table.add_column("Default Model")
@@ -303,7 +301,7 @@ def display_providers(catalog: list[dict]) -> None:
 
 
 def display_hardware(hw: dict) -> None:
-    """Format hardware profile."""
+    # Format detected host hardware profile
     grid = Table.grid(padding=(0, 2))
     grid.add_column(style="bold cyan", justify="right", min_width=14)
     grid.add_column()
@@ -334,7 +332,7 @@ def display_hardware(hw: dict) -> None:
 
 
 def display_recommendation(rec: dict) -> None:
-    """Format local model recommendation."""
+    # Format local model recommendation
     model = rec["recommendation"]
     decision = rec["decision"]
 
@@ -364,7 +362,7 @@ def display_recommendation(rec: dict) -> None:
 
 
 def display_ipsw(inventory: dict) -> None:
-    """Format IPSW inventory."""
+    # Format IPSW archive inventory
     grid = Table.grid(padding=(0, 2))
     grid.add_column(style="bold cyan", justify="right", min_width=14)
     grid.add_column()
@@ -426,7 +424,7 @@ def display_ipsw(inventory: dict) -> None:
 
 
 def display_ipsw_diff(report: dict) -> None:
-    """Format IPSW firmware diff for human reading."""
+    # Format IPSW firmware diff for human reading
     old_a = report["old_archive"]
     new_a = report["new_archive"]
     build = report["build_changes"]
@@ -506,7 +504,7 @@ def display_ipsw_diff(report: dict) -> None:
 
 
 def display_config(config: dict) -> None:
-    """Format current configuration."""
+    # Format current configuration
     from .config import CONFIG_FILE
     from .llm import PROVIDERS
 

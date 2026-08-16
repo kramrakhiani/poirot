@@ -1,8 +1,6 @@
-"""IPSW firmware archive differential analysis.
-
-Compares two Apple IPSW archives at the manifest, build identity, and
-component payload levels without requiring multi-gigabyte extraction.
-"""
+# IPSW firmware archive differential analysis.
+# Compares two Apple IPSW archives at the manifest, build identity, and
+# component payload levels without requiring multi-gigabyte extraction.
 from __future__ import annotations
 
 import plistlib
@@ -14,13 +12,12 @@ from .analysis import MAX_IPSW_MANIFEST_BYTES
 
 
 def is_ipsw_file(path_value: str) -> bool:
-    """Return True if the file looks like an IPSW (ZIP with BuildManifest or .ipsw extension)."""
+    # Check if target path has .ipsw extension or contains BuildManifest.plist
     p = Path(path_value)
     if not p.is_file():
         return False
     if p.suffix.casefold() == ".ipsw":
         return True
-    # If not named .ipsw, check if it's a zip containing BuildManifest.plist
     if zipfile.is_zipfile(p):
         try:
             with zipfile.ZipFile(p) as z:
@@ -32,7 +29,7 @@ def is_ipsw_file(path_value: str) -> bool:
 
 
 def _categorize_member(filename: str) -> str:
-    """Classify an IPSW member path into an iOS security subsystem."""
+    # Classify an IPSW member path into an iOS security subsystem
     fn = filename.lower()
     if "kernelcache" in fn:
         return "kernel"
@@ -66,7 +63,7 @@ def _read_manifest(archive: zipfile.ZipFile, manifest_name: str) -> dict[str, An
 
 
 def diff_ipsw(old_path_value: str, new_path_value: str) -> dict[str, Any]:
-    """Compare two IPSW firmware archives deterministically."""
+    # Compares two IPSW firmware archives deterministically without disk extraction
     old_path = Path(old_path_value)
     new_path = Path(new_path_value)
 
@@ -196,7 +193,7 @@ def diff_ipsw(old_path_value: str, new_path_value: str) -> dict[str, Any]:
 
 
 def llm_ipsw_evidence(report: dict[str, Any]) -> dict[str, Any]:
-    """Create a compact, privacy-safe evidence bundle for LLM interpretation of an IPSW firmware diff."""
+    # Compact, privacy-safe JSON evidence bundle for LLM firmware diff interpretation
     build = report["build_changes"]
     comp = report["component_changes"]
 

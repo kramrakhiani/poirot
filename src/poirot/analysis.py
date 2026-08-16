@@ -156,7 +156,7 @@ def _is_executable_section(section: object) -> bool:
 
 
 def extract_mach_o_fileset_entries(raw_bytes: bytes) -> list[dict[str, Any]]:
-    """Extract LC_FILESET_ENTRY load commands from Mach-O MH_FILESET binary."""
+    # Extract LC_FILESET_ENTRY (0x80000035) load commands from Mach-O 64-bit MH_FILESET container
     import hashlib
     if len(raw_bytes) < 32:
         return []

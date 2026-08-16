@@ -36,7 +36,7 @@ from .markdown import generate_markdown_report
 
 
 def _load_dotenv() -> None:
-    """Best-effort .env loading. No hard dependency on python-dotenv."""
+    # Best-effort .env loading without hard dependency on python-dotenv
     try:
         from dotenv import load_dotenv
         load_dotenv()
@@ -53,7 +53,7 @@ def _dump(value: object, output: str | None = None) -> None:
 
 
 def _print_completion(shell: str) -> None:
-    """Output shell completion script."""
+    # Print shell autocompletion script for bash, zsh, or fish
     commands = "setup config analyze ipsw ipsw-extract ipsw-diff diff report explain models hardware recommend completion"
     if shell == "bash":
         print(f"""# poirot bash completion

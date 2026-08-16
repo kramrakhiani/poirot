@@ -343,7 +343,7 @@ def explain_stream(
     allow_cloud: bool = False,
     timeout: int | None = None,
 ) -> Generator[str, None, None]:
-    """Yield chunks of the explanation text as they arrive from the LLM provider."""
+    # Stream token chunks as they arrive from the upstream LLM endpoint
     provider, endpoint, api_key, effective_timeout = _validate_request(
         provider_name, base_url, allow_cloud, timeout
     )

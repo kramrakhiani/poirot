@@ -1,7 +1,5 @@
-"""Markdown report generator for Poirot diff and IPSW comparison reports.
-
-Produces clean, GitHub-flavored Markdown audit writeups.
-"""
+# Markdown report generator for Poirot diff and IPSW comparison reports.
+# Produces clean, GitHub-flavored Markdown audit writeups.
 from __future__ import annotations
 
 from typing import Any
@@ -9,7 +7,7 @@ from pathlib import Path
 
 
 def generate_markdown_report(report: dict[str, Any]) -> str:
-    """Generate a clean GitHub-flavored Markdown report from a diff report."""
+    # Formats a complete structured Markdown report from a diff dictionary
     lines: list[str] = []
 
     if report.get("kind") == "ipsw_diff":

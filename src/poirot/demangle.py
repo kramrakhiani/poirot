@@ -1,8 +1,6 @@
-"""Swift and C++ symbol demangling.
-
-Uses platform runtime __cxa_demangle for C++ and swift-demangle subprocess
-(when available) with in-memory caching and graceful fallback.
-"""
+# Swift and C++ symbol demangling.
+# Uses platform runtime __cxa_demangle for C++ and swift-demangle subprocess
+# (when available) with in-memory caching and graceful fallback.
 from __future__ import annotations
 
 import ctypes
@@ -10,7 +8,7 @@ import functools
 import shutil
 import subprocess
 
-# C++ demangling via ctypes (__cxa_demangle)
+# Resolve platform C++ runtime for __cxa_demangle
 _cxa_demangle = None
 _free = None
 
@@ -31,6 +29,7 @@ try:
         except OSError:
             pass
 
+    # Standard C library free() pointer
     libc = ctypes.CDLL(None)
     if hasattr(libc, "free"):
         _free = libc.free
@@ -43,7 +42,7 @@ _HAS_SWIFT_DEMANGLE = shutil.which("swift-demangle") is not None
 
 
 def _demangle_cpp(name: str) -> str | None:
-    """Demangle an Itanium C++ symbol name (_Z...)."""
+    # Demangle an Itanium ABI C++ symbol name (_Z...)
     if not _cxa_demangle:
         return None
     candidate = name.lstrip("_")
@@ -68,7 +67,7 @@ def _demangle_cpp(name: str) -> str | None:
 
 
 def _demangle_swift(name: str) -> str | None:
-    """Demangle a Swift symbol ($s..., _$s..., _T...) via swift-demangle if installed."""
+    # Demangle Swift symbol ($s..., _$s..., _T...) via swift-demangle CLI if present
     if not _HAS_SWIFT_DEMANGLE:
         return None
     if not any(name.startswith(p) for p in ("$s", "_$s", "$S", "_$S", "_T")):
@@ -89,17 +88,17 @@ def _demangle_swift(name: str) -> str | None:
 
 @functools.lru_cache(maxsize=4096)
 def demangle_symbol(name: str) -> str:
-    """Demangle a C++ or Swift symbol. Returns the original name if demangling fails."""
+    # Demangle C++ or Swift symbol; returns original name on failure
     if not name or len(name) < 3:
         return name
 
-    # Try Swift first if matching prefix
+    # Swift mangling prefixes ($s = Swift 5+, _T = Swift 3/4)
     if name.startswith(("$s", "_$s", "$S", "_$S", "_T")):
         swift_res = _demangle_swift(name)
         if swift_res:
             return swift_res
 
-    # Try C++
+    # Itanium C++ mangling prefix
     if "_Z" in name:
         cpp_res = _demangle_cpp(name)
         if cpp_res:

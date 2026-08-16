@@ -1,8 +1,6 @@
-"""Persistent user configuration for Poirot.
-
-Stores defaults in ~/.poirot/config.json so that `poirot explain old new`
-just works after a one-time `poirot setup`.
-"""
+# Persistent user configuration for Poirot.
+# Stores defaults in ~/.poirot/config.json so that `poirot explain old new`
+# works after a one-time `poirot setup`.
 from __future__ import annotations
 
 import json
@@ -32,13 +30,13 @@ def _load_raw() -> dict[str, Any]:
 
 
 def load_config() -> dict[str, Any]:
-    """Load config, filling missing keys with defaults."""
+    # Load config from ~/.poirot/config.json, filling missing keys with defaults
     saved = _load_raw()
     return {**DEFAULTS, **saved}
 
 
 def save_config(config: dict[str, Any]) -> Path:
-    """Write config to disk. Creates ~/.poirot/ if needed."""
+    # Write config to disk; creates ~/.poirot/ if needed
     CONFIG_DIR.mkdir(parents=True, exist_ok=True)
     CONFIG_FILE.write_text(
         json.dumps(config, indent=2, ensure_ascii=False) + "\n",
@@ -48,13 +46,13 @@ def save_config(config: dict[str, Any]) -> Path:
 
 
 def is_configured() -> bool:
-    """True if the user has run setup at least once."""
+    # True if the user has completed poirot setup at least once
     config = _load_raw()
     return config.get("provider") is not None
 
 
 def run_setup() -> dict[str, Any]:
-    """Interactive first-run wizard. Returns the saved config."""
+    # Interactive first-run wizard returning the saved configuration dictionary
     from .llm import PROVIDERS, CLOUD_PROVIDERS
 
     print("\n╭─────────────────────────────────────────╮")
@@ -133,7 +131,7 @@ def run_setup() -> dict[str, Any]:
 
 
 def _ask_choice(prompt: str, valid: set[str]) -> str:
-    """Keep asking until the user picks a valid option."""
+    # Keep asking until the user inputs a valid option
     while True:
         try:
             answer = input(prompt).strip()

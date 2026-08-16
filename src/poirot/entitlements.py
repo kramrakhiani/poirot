@@ -1,8 +1,6 @@
-"""Mach-O embedded entitlements extraction and differential analysis.
-
-Parses XML/plist entitlements from __TEXT,__entitlements sections or
-LC_CODE_SIGNATURE embedded SuperBlobs (magic 0xfade7171).
-"""
+# Mach-O embedded entitlements extraction and differential analysis.
+# Parses XML/plist entitlements from __TEXT,__entitlements sections or
+# LC_CODE_SIGNATURE embedded SuperBlobs (magic 0xfade7171).
 from __future__ import annotations
 
 import plistlib
@@ -11,13 +9,13 @@ import struct
 from pathlib import Path
 from typing import Any
 
+# Apple code signing blob magic identifiers (big endian)
 CSMAGIC_EMBEDDED_ENTITLEMENTS = 0xFADE7171
 CSMAGIC_EMBEDDED_SUPERBLOB = 0xFADE0CC0
 
 
 def _parse_xml_plist(data: bytes) -> dict[str, Any]:
-    """Extract and parse plist XML if found within bytes."""
-    # Find XML plist boundaries
+    # Locate XML plist boundaries in raw bytes
     start = data.find(b"<?xml")
     if start == -1:
         start = data.find(b"<plist")
@@ -37,8 +35,7 @@ def _parse_xml_plist(data: bytes) -> dict[str, Any]:
 
 
 def _extract_from_superblob(data: bytes) -> dict[str, Any]:
-    """Scan for Code Signing SuperBlob and extract embedded entitlements blob."""
-    # Search for SuperBlob magic (0xfade0cc0 in big endian)
+    # Scan for Code Signing SuperBlob (0xfade0cc0) and extract CSSLOT_ENTITLEMENTS (slot 5/7)
     offset = 0
     while True:
         pos = data.find(b"\xfa\xde\x0c\xc0", offset)
@@ -67,23 +64,21 @@ def _extract_from_superblob(data: bytes) -> dict[str, Any]:
 
 
 def extract_entitlements_from_file(path: Path) -> dict[str, Any]:
-    """Extract embedded entitlements from a Mach-O or iOS binary."""
+    # Extract embedded entitlements from a Mach-O binary (scans SuperBlob then raw XML)
     try:
-        # Read up to 8MB or file size to bound memory consumption
+        # Bounded read to prevent excessive memory consumption
         with path.open("rb") as f:
             data = f.read(8 * 1024 * 1024)
-        # 1. Try SuperBlob parsing
         ent = _extract_from_superblob(data)
         if ent:
             return ent
-        # 2. Try XML plist scanner
         return _parse_xml_plist(data)
     except Exception:
         return {}
 
 
 def diff_entitlements(old_ent: dict[str, Any], new_ent: dict[str, Any]) -> dict[str, Any]:
-    """Compare two sets of entitlements and highlight additions/changes."""
+    # Compare two sets of entitlements and flag privilege escalation signals
     old_keys = set(old_ent.keys())
     new_keys = set(new_ent.keys())
 
