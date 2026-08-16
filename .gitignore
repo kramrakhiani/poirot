@@ -1,0 +1,44 @@
+# Secrets & Config
+.env
+.env.*
+.poirot/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing & Coverage
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+
+# Firmware & Binary Analysis Artifacts
+*.ipsw
+*.dmg
+*.im4p
+*.img4
+*.trustcache
+kernelcache*
+sep_firmware*
+diff_report.*
+*.out
+
+# OS
+.DS_Store
+Thumbs.db
