@@ -39,6 +39,10 @@ sep_firmware*
 diff_report.*
 *.out
 
+# Internal notes & docs
+ARCHITECTURE.md
+AUDIT.md
+
 # OS
 .DS_Store
 Thumbs.db
