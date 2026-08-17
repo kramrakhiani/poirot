@@ -1,13 +1,31 @@
-# Poirot
+<div align="center">
 
-```
-  ██████╗  ██████╗ ██╗██████╗  ██████╗ ████████╗
-  ██╔══██╗██╔═══██╗██║██╔══██╗██╔═══██╗╚══██╔══╝
-  ██████╔╝██║   ██║██║██████╔╝██║   ██║   ██║   
-  ██╔═══╝ ██║   ██║██║██╔══██╗██║   ██║   ██║   
-  ██║     ╚██████╔╝██║██║  ██║╚██████╔╝   ██║   
-  ╚═╝      ╚═════╝ ╚═╝╚═╝  ╚═╝ ╚═════╝    ╚═╝   
-```
+  <img src="./assets/logo.svg" width="90" height="90" alt="Poirot Logo" />
+
+  <h1>Poirot</h1>
+
+  <p>
+    <strong>A CLI tool for structural binary diffing and Apple IPSW firmware differential analysis</strong>
+  </p>
+
+  <p>
+    <a href="https://github.com/kramrakhiani/poirot/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License" /></a>
+    <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-3776AB.svg?style=flat-square&logo=python&logoColor=white" alt="Python Version" /></a>
+    <img src="https://img.shields.io/badge/tests-48%20passed-brightgreen.svg?style=flat-square" alt="Tests" />
+    <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey.svg?style=flat-square" alt="Platform" />
+  </p>
+
+  <p>
+    <a href="#installation">Installation</a> •
+    <a href="#quick-start">Quick Start</a> •
+    <a href="#apple-ipsw-firmware-analysis">IPSW Analysis</a> •
+    <a href="#supported-providers">LLM Providers</a> •
+    <a href="#cli-reference">CLI Reference</a>
+  </p>
+
+</div>
+
+---
 
 Poirot is an evidence-first developer and security tool for structural binary comparison and Apple IPSW firmware differential analysis. It extracts deterministic structural facts from compiled binaries (Mach-O, ELF, PE) and firmware archives (IPSW), identifies modified functions and payloads, calculates change significance scores, and optionally queries an LLM to generate plain-text interpretations grounded strictly in extracted evidence.
 

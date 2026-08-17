@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" fill="none">
+  <defs>
+    <linearGradient id="lensGrad" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00D2FF" />
+      <stop offset="100%" stop-color="#3A7BD5" />
+    </linearGradient>
+    <linearGradient id="handleGrad" x1="70" y1="70" x2="110" y2="110" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3A7BD5" />
+      <stop offset="100%" stop-color="#00D2FF" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Magnifying Glass Lens Outer Ring -->
+  <circle cx="50" cy="50" r="34" stroke="url(#lensGrad)" stroke-width="5.5" filter="url(#glow)" />
+
+  <!-- Magnifying Glass Lens Interior Glow -->
+  <circle cx="50" cy="50" r="30" fill="url(#lensGrad)" fill-opacity="0.08" />
+
+  <!-- Target / Focus Crosshair Nodes (Inspection Theme) -->
+  <circle cx="50" cy="50" r="14" stroke="#00D2FF" stroke-width="2" stroke-dasharray="3 3" opacity="0.8" />
+  <circle cx="50" cy="50" r="4" fill="#00D2FF" />
+
+  <!-- Subtle grid / differential lines inside lens -->
+  <path d="M50 24 V32 M50 68 V76 M24 50 H32 M68 50 H76" stroke="#00D2FF" stroke-width="2.5" stroke-linecap="round" opacity="0.85" />
+
+  <!-- Magnifying Glass Handle -->
+  <path d="M75 75 L102 102" stroke="url(#handleGrad)" stroke-width="7" stroke-linecap="round" filter="url(#glow)" />
+  <path d="M78 78 L99 99" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.6" />
+</svg>
